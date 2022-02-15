@@ -31,10 +31,25 @@ Xamarin._X_ se base sur [Mono](https://www.mono-project.com) (et pas .NET Framew
 
 > _En italique, les outils qui ne sont pas obligatoires._
 
-# Les essentiels
+# Android
+- L'application doit avoir un fichier _manifest.xml_ qui va contenir les informations de l'application (versions d'Android compatibles, nom de l'application, thème, permissions, activités, ...) ;
+- Les ressources sont stockées dans le dossier `R` et sont indéxées dans une classe pour être utilisées grâce à la méthode `view.findById(int)`.
+- L'application se compose d'une ou plusieurs activités. Les activités ont un cycle de vie (`onCreate`, `onStart`, `onResume`, `onPause`, `onStop`, `onDestroy`, `onRestart`) ;
+- L'activité de démarrage doit être présicée par la propriété de l'attribut (`MainLauncher`).
 
-## Pattern MVVM
 
+## Cycle de vie d'une activité Android
+![Cycle de vie d'une activité Android](images/android_activity_lifecycle.png "Activity lifecycle, https://www.androhub.com/android-activity-lifecycle/")
+
+# iOS 
+- Le point d'entrée de l'application est la classe `Application` et la méthode statique `Main(string[])`. La classe `UIApplication` permet de définir le nom de la classe principale, par défaut _AppDelegate_.
+- L'`AppDelegate` permet de définir le comportement global de l'application iOS.
+- On retrouve des ViewController qui vont gérer les interactions entre les différentes "pages".
+- Les fichiers `*.storyboard` vont définir l'interface graphique de notre application iOS, y compris la navigation.
+- Le fichier `info.plist` contient les informations relatives à mon application mobile : nom, périphériques, ...
+
+## Cycle de vie d'une scène iOS
+![Cycle de vie d'une scène iOS](images/ios_scene_lifecycle.png "Cycle de vie d'une scène iOS, https://developer.apple.com/documentation/uikit/app_and_environment/managing_your_app_s_life_cycle")
 
 # Experts Blog
 Une application de blogs spécialisée dans les commerces de proximité.
