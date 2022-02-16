@@ -63,6 +63,92 @@ Xamarin._X_ se base sur [Mono](https://www.mono-project.com) (et pas .NET Framew
 
 > Pour chaque événement, un lien est fait entre Xamarin.Forms et Xamarin.Android/Xamarin.iOS.
 
+# Bindings
+- Une liaison forte entre un élément et un autre (par exemple, entre un Label et un Slider).
+- Différentes manières de créer une liaison.
+
+```xml
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="DataBindingDemos.AlternativeXamlBindingPage"
+             Title="Alternative XAML Binding">
+    <StackLayout Padding="10, 0">
+        <Label Text="TEXT"
+               FontSize="40"
+               HorizontalOptions="Center"
+               VerticalOptions="CenterAndExpand"
+               Scale="{Binding Value, Source={x:Reference slider},
+                               Path=Value}" />
+
+        <Slider x:Name="slider"
+                Minimum="-2"
+                Maximum="2"
+                VerticalOptions="CenterAndExpand" />
+    </StackLayout>
+</ContentPage>
+```
+
+> Informations complémentaires :
+> - https://docs.microsoft.com/xamarin/xamarin-forms/enterprise-application-patterns/mvvm
+> - http://wpftutorial.net/MVVM.html (comparaison des patterns MVVM-MVC-MVP)
+
+# Pattern MVVM
+![Pattern MVVM](images/mvvm.png "Pattern MVVM, source https://www.journaldev.com/20292/android-mvvm-design-pattern")
+Plus ou moins équivalent au pattern MVC et MVP. Plus d'informations : http://wpftutorial.net/MVVM.html
+## Rôles
+- View : Afficher les données, retransmettre le ViewModel et envoyer les modifications à effectuer (un champs texte qui envoie une nouvelle valeur au ViewModel) ;
+- ViewModel : Envoyer/Recevoir des données, transformer, notifier un changement à la _view_ (via l'implémentation de l'interface `System.ComponentModel.INotifyPropertyChanged`) ;
+- Model : Les objets qu'on va manipuler pendant le cycle de vie de notre application _(DTO - Data Transfert Object)_.
+
+## Exemple de code
+```csharp
+public class DemoViewModel : System.ComponentModel.INotifyPropertyChanged
+{
+    public event PropertyChangedEventHandler PropertyChanged;
+
+    /// <summary>
+    /// Méthode qui va effectuer la notification
+    /// </summary>
+    private void OnPropertyChanged(string propertyName)
+    {
+        // On vérifie que PropertyChanged n'est pas `null`
+        if (PropertyChanged == null)
+        {
+            return;
+        }
+        // this = instance de `DemoViewModel`
+        // Instancier l'événement qui va contenir le nom de la propriété à changer.
+        // On créé les arguments de l'événement.
+        var args = new PropertyChangedEventArgs(propertyName);
+        // On invoque l'événément en lui donnant le nom de la propriété à modifier.
+        PropertyChanged.Invoke(this, args);
+    }
+
+    /// <summary>
+    /// Méthode générique qui va notifier le changement de valeur d'une propriété.
+    /// </summary>
+    /// <typeparam name="T">Type de la propriété publique et du champ privé.</typeparam>
+    /// <param name="storage">Valeur avec sa réference (adresse en mémoire) du champ privé.</param>
+    /// <param name="value">Nouvelle valeur.</param>
+    /// <param name="propertyName">Le nom de la propriété qui va être modifiée.</param>
+    protected void SetProperty<T>(ref T storage, T value, [CallerMemberName] string propertyName = null)
+    {
+        // Vérifier l'égalité entre la valeur de `storage` et de `value`.
+        if (EqualityComparer<T>.Default.Equals(storage, value))
+        {
+            // Si la valeur est égale, on arrête.
+            return;
+        }
+        // On remplace la valeur à l'adresse de `storage` par la nouvelle valeur, `value`.
+        storage = value;
+        // On appelle la méthode `OnPropertyChanged(string)` qui va créer un événement de changement de valeur.
+        OnPropertyChanged(propertyName);
+    }
+}
+```
+
+> `INotifyCollectionChanged` permet d'être notifié si une collection a été mise à jour ou pas (ajout, édition, suppression, etc). Cette interface est implémentée dans `System.ObjectModel.ObservableCollection<T>`.
+
 # Experts Blog
 Une application de blogs spécialisée dans les commerces de proximité.
 
