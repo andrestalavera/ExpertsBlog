@@ -51,6 +51,18 @@ Xamarin._X_ se base sur [Mono](https://www.mono-project.com) (et pas .NET Framew
 ## Cycle de vie d'une scène iOS
 ![Cycle de vie d'une scène iOS](images/ios_scene_lifecycle.png "Cycle de vie d'une scène iOS, https://developer.apple.com/documentation/uikit/app_and_environment/managing_your_app_s_life_cycle")
 
+# Xamarin.Forms
+- Framework qui permet de développer des applications mobiles (natives) sur Android et iOS  à l'aide des langages C# et XAML ; 
+- Le point d'entrée est, par défaut, la classe `App` (fichier _`App.xaml.cs`_, qui hérite de `Xamarin.Forms.Application`) et défini la page de démarrage (Propriété `MainPage`) ; 
+- Le fichier `App.xaml` contient les ressources (dictionnaires, thèmes, couleurs, ...) ; 
+- Les fichiers `*.xaml.cs` sont le code _behind_ des pages `*.xaml` et sont liées à travers la propriété `x:Class` (côté xaml) ;
+- On peut réutiliser toutes nos connaissances C# pour développer notre application (syntaxe, méthodes, packages NuGet, ...) ;
+
+## Cycle de vie d'une application Xamarin.Forms
+![Cycle de vie d'une application Xamarin.Forms](images/xamarin_forms_lifecycle.png "Cycle de vie d'une application Xamarin.Forms")
+
+> Pour chaque événement, un lien est fait entre Xamarin.Forms et Xamarin.Android/Xamarin.iOS.
+
 # Experts Blog
 Une application de blogs spécialisée dans les commerces de proximité.
 
