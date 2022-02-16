@@ -65,7 +65,7 @@ Xamarin._X_ se base sur [Mono](https://www.mono-project.com) (et pas .NET Framew
 
 # Bindings
 - Une liaison forte entre un élément et un autre (par exemple, entre un Label et un Slider).
-- Différentes manières de créer une liaison.
+- Différentes manières de créer une liaison (voir documentation officielle).
 
 ```xml
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
@@ -91,6 +91,74 @@ Xamarin._X_ se base sur [Mono](https://www.mono-project.com) (et pas .NET Framew
 > Informations complémentaires :
 > - https://docs.microsoft.com/xamarin/xamarin-forms/enterprise-application-patterns/mvvm
 > - http://wpftutorial.net/MVVM.html (comparaison des patterns MVVM-MVC-MVP)
+
+# Data Templating
+- Par défaut, une `ListView` permet d'afficher des éléments et n'a pas de template. Chaque élément aura pour contenu la valeur de la méthode `ToString()` (soit pour un `BlogPost` : `ExpertsBlog.Entities.BlogPost`) ;
+- On peut personnaliser l'UI de chaque élément grâce à un DataTemplate ; 
+- Le DataTemplate peut être défini à l'intérieur d'un `ItemTemplate` (exemple 1) ou dans les ressources d'une page (exemple 2) ou de l'application (fichier `App.xaml` - exemple 3).
+
+### Exemple 1
+```xml
+<ContentPage ...>
+<ContentPage.Resources>
+    <!--Nothing, empty, nada, rien-->
+</ContentPage.Resources>
+<RefreshView>
+    <CollectionView ItemsSource="{Binding Items}">
+        <CollectionView.ItemTemplate>
+            <!-- ItemTemplate ne peut prendre qu'un objet de type DataTemplate -->
+            <DataTemplate>
+                <StackLayout>
+                    <Label Text="{Binding Title}"/>
+                </StackLayout>
+            </DataTemplate>
+        </CollectionView.ItemTemplate>
+    </CollectionView>
+<RefreshView>
+</ContentPage>
+```
+
+### Exemple 2
+```xml
+<ContentPage ...>
+    <ContentPage.Resources>
+        <DataTemplate x:Key="BlogPostTemplate">
+            <StackLayout>
+                <Label Text="{Binding Title}"/>
+            </StackLayout>
+        </DataTemplate>
+    </ContentPage.Resources>
+    <RefreshView>
+        <CollectionView ItemsSource="{Binding Items}" ItemTemplate="{StaticResource BlogPostTemplate}"/>
+    <RefreshView>
+</ContentPage>
+```
+### Exemple 3
+App.xaml :
+```xml
+<Application ...>
+    <Application.Resources>
+        ...
+        <DataTemplate x:Key="BlogPostTemplate">
+            <StackLayout>
+                <Label Text="{Binding Title}"/>
+            </StackLayout>
+        </DataTemplate>
+        ... 
+    </Application.Resources>
+</Application>
+```
+MainPage.xaml :
+```xml
+<ContentPage ...>
+...
+    <RefreshView>
+        <CollectionView ItemsSource="{Binding Items}" ItemTemplate="{StaticResource BlogPostTemplate}"/>
+    <RefreshView>
+</ContentPage>
+```
+
+> Ne pas confondre l'utilité de `RefreshView`, `ListView` et `CollectionView`.
 
 # Pattern MVVM
 ![Pattern MVVM](images/mvvm.png "Pattern MVVM, source https://www.journaldev.com/20292/android-mvvm-design-pattern")
@@ -156,3 +224,9 @@ Une application de blogs spécialisée dans les commerces de proximité.
 |Projet|Description|
 |--|--|
 |`ExpertsBlog.Entities`|Les modèles (`BlogPost`, `Category`, `Tag`, ) qui serviront à notre API.|
+
+## Création du projet
+1. Créer un projet Xamarin.Forms (vide) nommé `ExpertsBlog`.
+1. Implémenter le pattern MVVM.
+1. Modifier la page d'accueil pour afficher une liste de `BlogPost`.
+1. Modifier le `DataTemplate` de la liste à afficher.
