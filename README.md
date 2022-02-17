@@ -31,30 +31,32 @@ Xamarin._X_ se base sur [Mono](https://www.mono-project.com) (et pas .NET Framew
 
 > _En italique, les outils qui ne sont pas obligatoires._
 
-# Android
+# Plateformes mobiles natives
+
+## Android
 - L'application doit avoir un fichier _manifest.xml_ qui va contenir les informations de l'application (versions d'Android compatibles, nom de l'application, thème, permissions, activités, ...) ;
 - Les ressources sont stockées dans le dossier `R` et sont indéxées dans une classe pour être utilisées grâce à la méthode `view.findById(int)`.
 - L'application se compose d'une ou plusieurs activités. Les activités ont un cycle de vie (`onCreate`, `onStart`, `onResume`, `onPause`, `onStop`, `onDestroy`, `onRestart`) ;
 - L'activité de démarrage doit être présicée par la propriété de l'attribut (`MainLauncher`).
 
 
-## Cycle de vie d'une activité Android
+### Cycle de vie d'une activité Android
 ![Cycle de vie d'une activité Android](images/android_activity_lifecycle.png "Activity lifecycle, https://www.androhub.com/android-activity-lifecycle/")
 
-# iOS 
+## iOS 
 - Le point d'entrée de l'application est la classe `Application` et la méthode statique `Main(string[])`. La classe `UIApplication` permet de définir le nom de la classe principale, par défaut _AppDelegate_.
 - L'`AppDelegate` permet de définir le comportement global de l'application iOS.
 - On retrouve des ViewController qui vont gérer les interactions entre les différentes "pages".
 - Les fichiers `*.storyboard` vont définir l'interface graphique de notre application iOS, y compris la navigation.
 - Le fichier `info.plist` contient les informations relatives à mon application mobile : nom, périphériques, ...
 
-## Cycle de vie d'une scène iOS
+### Cycle de vie d'une scène iOS
 ![Cycle de vie d'une scène iOS](images/ios_scene_lifecycle.png "Cycle de vie d'une scène iOS, https://developer.apple.com/documentation/uikit/app_and_environment/managing_your_app_s_life_cycle")
 
 # Xamarin.Forms
-- Framework qui permet de développer des applications mobiles (natives) sur Android et iOS  à l'aide des langages C# et XAML ; 
+- Framework qui permet de développer des applications mobiles (natives) sur Android et iOS  à l'aide des langages C# (pour le code métier/behind) et XAML (pour l'interface graphique) ; 
 - Le point d'entrée est, par défaut, la classe `App` (fichier _`App.xaml.cs`_, qui hérite de `Xamarin.Forms.Application`) et défini la page de démarrage (Propriété `MainPage`) ; 
-- Le fichier `App.xaml` contient les ressources (dictionnaires, thèmes, couleurs, ...) ; 
+- Le fichier `App.xaml` contient les ressources (dictionnaires, thèmes, couleurs, ...) globales (accessibles depuis toute l'application) ; 
 - Les fichiers `*.xaml.cs` sont le code _behind_ des pages `*.xaml` et sont liées à travers la propriété `x:Class` (côté xaml) ;
 - On peut réutiliser toutes nos connaissances C# pour développer notre application (syntaxe, méthodes, packages NuGet, ...) ;
 
@@ -63,7 +65,10 @@ Xamarin._X_ se base sur [Mono](https://www.mono-project.com) (et pas .NET Framew
 
 > Pour chaque événement, un lien est fait entre Xamarin.Forms et Xamarin.Android/Xamarin.iOS.
 
-# Bindings
+## Navigation
+(TODO: copier code Mourad)
+
+## Bindings
 - Une liaison forte entre un élément et un autre (par exemple, entre un Label et un Slider).
 - Différentes manières de créer une liaison (voir documentation officielle).
 
@@ -92,7 +97,7 @@ Xamarin._X_ se base sur [Mono](https://www.mono-project.com) (et pas .NET Framew
 > - https://docs.microsoft.com/xamarin/xamarin-forms/enterprise-application-patterns/mvvm
 > - http://wpftutorial.net/MVVM.html (comparaison des patterns MVVM-MVC-MVP)
 
-# Data Templating
+## Data Templating
 - Par défaut, une `ListView` permet d'afficher des éléments et n'a pas de template. Chaque élément aura pour contenu la valeur de la méthode `ToString()` (soit pour un `BlogPost` : `ExpertsBlog.Entities.BlogPost`) ;
 - On peut personnaliser l'UI de chaque élément grâce à un DataTemplate ; 
 - Le DataTemplate peut être défini à l'intérieur d'un `ItemTemplate` (exemple 1) ou dans les ressources d'une page (exemple 2) ou de l'application (fichier `App.xaml` - exemple 3).
@@ -160,15 +165,15 @@ MainPage.xaml :
 
 > Ne pas confondre l'utilité de `RefreshView`, `ListView` et `CollectionView`.
 
-# Pattern MVVM
+## Pattern MVVM
 ![Pattern MVVM](images/mvvm.png "Pattern MVVM, source https://www.journaldev.com/20292/android-mvvm-design-pattern")
 Plus ou moins équivalent au pattern MVC et MVP. Plus d'informations : http://wpftutorial.net/MVVM.html
-## Rôles
+### Rôles
 - View : Afficher les données, retransmettre le ViewModel et envoyer les modifications à effectuer (un champs texte qui envoie une nouvelle valeur au ViewModel) ;
 - ViewModel : Envoyer/Recevoir des données, transformer, notifier un changement à la _view_ (via l'implémentation de l'interface `System.ComponentModel.INotifyPropertyChanged`) ;
 - Model : Les objets qu'on va manipuler pendant le cycle de vie de notre application _(DTO - Data Transfert Object)_.
 
-## Exemple de code
+#### Exemple de code
 ```csharp
 public class DemoViewModel : System.ComponentModel.INotifyPropertyChanged
 {
@@ -217,6 +222,58 @@ public class DemoViewModel : System.ComponentModel.INotifyPropertyChanged
 
 > `INotifyCollectionChanged` permet d'être notifié si une collection a été mise à jour ou pas (ajout, édition, suppression, etc). Cette interface est implémentée dans `System.ObjectModel.ObservableCollection<T>`.
 
+## Interface graphique
+
+### Shell
+Possibilités :
+- Gérer des routes de l'application ;
+- Créer une interface graphique avec soit un menu hamburger (flyout) et/ou des onglets ;
+- Chaque élément peut être modifié grâce aux templates ;
+- Naviguer entre plusieurs pages ;
+
+#### Ajouter un Shell à mon application :
+
+Créer un `Shell` :
+```xml
+<Shell xmlns="http://xamarin.com/schemas/2014/forms" 
+       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+       xmlns:local="clr-namespace:demoshell.Views"
+       Title="Demoshell"
+       x:Class="Demoshell.AppShell">
+    <Shell.Resources>...</Shell.Resources>
+        <!-- Element du menu hamburger (flyout), nommé "About" et dont l'icone est spécifiée, permettant de changer de page -->
+        <FlyoutItem Title="About" Icon="icon_about.png">
+            <ShellContent Route="AboutPage" ContentTemplate="{DataTemplate local:AboutPage}" />
+        </FlyoutItem>
+
+        <!-- Element du menu cliquable et qui ne change pas directement le contenu de la page. Cet élément va s'afficher dans le flyout (par défaut, en bas des éventuels `FlyoutItem`) -->
+        <MenuItem Text="Logout" Clicked="OnMenuItemClicked" />
+
+        <!-- Barre à onglets, chaque `ShellContent` va représenter un onglet -->
+        <TabBar>
+            <ShellContent Route="LoginPage" ContentTemplate="{DataTemplate local:LoginPage}" />
+        </TabBar>
+</Shell>
+```
+
+Enregistrer des routes (non visibles depuis le flyout ou depuis les onglets) :
+```csharp
+public partial class AppShell : Xamarin.Forms.Shell
+{
+    public AppShell()
+    {
+        InitializeComponent();
+        Routing.RegisterRoute(nameof(ItemDetailPage), typeof(ItemDetailPage));
+        Routing.RegisterRoute(nameof(NewItemPage), typeof(NewItemPage));
+    }
+
+    private void OnMenuItemClicked(object sender, EventArgs e)
+    {
+        // Do something with menu item.
+    }
+}
+```
+
 # Experts Blog
 Une application de blogs spécialisée dans les commerces de proximité.
 
@@ -224,9 +281,16 @@ Une application de blogs spécialisée dans les commerces de proximité.
 |Projet|Description|
 |--|--|
 |`ExpertsBlog.Entities`|Les modèles (`BlogPost`, `Category`, `Tag`, ) qui serviront à notre API.|
+|`ExpertsBlogs.Mobile`|Le code partagé de l'application.|
+|`ExpertsBlogs.Mobile.Android`|Code spécifique de l'application Android.|
+|`ExpertsBlogs.Mobile.iOS`|Code spécifique de l'application iOS/iPadOS.|
 
 ## Création du projet
 1. Créer un projet Xamarin.Forms (vide) nommé `ExpertsBlog`.
 1. Implémenter le pattern MVVM.
 1. Modifier la page d'accueil pour afficher une liste de `BlogPost`.
 1. Modifier le `DataTemplate` de la liste à afficher.
+
+## Ajouter un Shell
+1. Implémenter un Shell avec Un `MenuItem` qui sera nommé "A propos" et qui redirigera vers une page "A propos"
+1. La page principale doit afficher la liste des billets de blog.
