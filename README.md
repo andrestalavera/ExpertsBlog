@@ -292,6 +292,10 @@ Une application de blogs spécialisée dans les commerces de proximité.
 1. Modifier le `DataTemplate` de la liste à afficher.
 
 ## Ajouter un Shell
+1. Ajouter un fichier à la racine du projet `ExpertsBlog.Mobile` (template "Forms ContentPage XAML", par exemple) nommé "AppShell" (les fichiers `AppShell.xaml.cs` et `AppShell.xaml` vont être créés).
+1. Remplacer la classe parente (héritage) de la classe `ExpertsBlog.Mobile.AppShell` par `Xamarin.Forms.Shell`
+1. Remplacer l'élément _root_ du fichier xaml (designer) de `ContentPage` (ou autre) par `Shell`.
+1. Modifier la page de démarrage de l'application par une nouvelle instance de `AppShell` (propriété `MainPage` du constructeur de la classe `App`).
 1. Implémenter un Shell avec 2 `FlyoutItem` qui affiche la liste des billets de blog et "A propos" qui affichera une page "A propos".
-1. Ajoutetr la page "A propos"
+1. Ajouter la page "A propos"
 1. La page principale doit afficher la liste des billets de blog.
