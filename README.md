@@ -292,5 +292,6 @@ Une application de blogs spécialisée dans les commerces de proximité.
 1. Modifier le `DataTemplate` de la liste à afficher.
 
 ## Ajouter un Shell
-1. Implémenter un Shell avec Un `MenuItem` qui sera nommé "A propos" et qui redirigera vers une page "A propos"
+1. Implémenter un Shell avec 2 `FlyoutItem` qui affiche la liste des billets de blog et "A propos" qui affichera une page "A propos".
+1. Ajoutetr la page "A propos"
 1. La page principale doit afficher la liste des billets de blog.
