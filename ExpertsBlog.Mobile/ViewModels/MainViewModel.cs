@@ -18,7 +18,8 @@ namespace ExpertsBlog.Mobile.ViewModels
             {
                 BlogPosts.Add(new BlogPost
                 {
-                    Title = "Title " + i
+                    Title = "Title " + i,
+                    ImageUrl = "https://picsum.photos/5/5"
                 });
             }
         }
