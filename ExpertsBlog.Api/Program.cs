@@ -7,34 +7,23 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 using System;
-using System.Linq.Expressions;
-using System.Threading.Tasks;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// add services to DI container
-
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<ExpertsBlogDbContext>(options => options.UseSqlServer(connectionString));
-// builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
 {
     options.SwaggerDoc("v1", new OpenApiInfo
     {
         Version = "v1",
-        Title = "Expoerts Blog API",
+        Title = "Experts Blog API",
         Description = "An API for Experts Blog",
-        TermsOfService = new Uri("https://ideastud.io/terms"),
         Contact = new OpenApiContact
         {
             Name = "Contact Andrés Talavera",
             Url = new Uri("https://linkedin.com/in/andres-talavera")
-        },
-        License = new OpenApiLicense
-        {
-            Name = "License",
-            Url = new Uri("https://ideastud.io/license")
         }
     });
 });
@@ -48,19 +37,21 @@ app.UseSwaggerUI(options =>
 });
 app.UseHttpsRedirection();
 
-ConfigureRoutesFor<Category>(app, "Categories");
 ConfigureRoutesFor<BlogPost>(app, "BlogPosts");
-ConfigureRoutesFor<Tag>(app, "Tags");
 ConfigureRoutesFor<Address>(app, "Addresses");
+ConfigureRoutesFor<Category>(app, "Categories");
+ConfigureRoutesFor<Tag>(app, "Tags");
 
 app.Run();
 
-void ConfigureRoutesFor<TEntity>(WebApplication app, string controllerName)
+void ConfigureRoutesFor<TEntity>(WebApplication app, string routeBase)
     where TEntity : EntityBase
 {
-    app.MapGet(controllerName, async (ExpertsBlogDbContext context) => await context.Set<TEntity>().AsNoTracking().ToListAsync());
-    app.MapGet($"{controllerName}/{{id}}", async (ExpertsBlogDbContext context, int id) => await context.Set<TEntity>().AsNoTracking().SingleOrDefaultAsync(b => b.Id == id));
-    app.MapPost(controllerName, async (ExpertsBlogDbContext context, [FromBody]TEntity entity) =>
+    app.MapGet(routeBase, async (ExpertsBlogDbContext context) => await context.Set<TEntity>().AsNoTracking().ToListAsync());
+    app.MapGet($"{routeBase}/{{id}}", async (ExpertsBlogDbContext context, int id) => await context.Set<TEntity>().AsNoTracking().SingleOrDefaultAsync(b => b.Id == id));
+    
+
+    app.MapPost(routeBase, async (ExpertsBlogDbContext context, [FromBody]TEntity entity) =>
     {
         if (entity is not null)
         {
@@ -72,7 +63,7 @@ void ConfigureRoutesFor<TEntity>(WebApplication app, string controllerName)
         }
         throw new ArgumentNullException(nameof(entity));
     });
-    app.MapPut($"{controllerName}/{{id}}", async (ExpertsBlogDbContext context, int id, [FromBody]TEntity entity) =>
+    app.MapPut($"{routeBase}/{{id}}", async (ExpertsBlogDbContext context, int id, [FromBody]TEntity entity) =>
     {
         if (entity is not null)
         {
@@ -84,7 +75,7 @@ void ConfigureRoutesFor<TEntity>(WebApplication app, string controllerName)
         }
         throw new ArgumentNullException(nameof(entity));
     });
-    app.MapDelete($"{controllerName}/{{id?}}", async (ExpertsBlogDbContext context, int? id) =>
+    app.MapDelete($"{routeBase}/{{id?}}", async (ExpertsBlogDbContext context, int? id) =>
     {
         if (id.HasValue)
         {
