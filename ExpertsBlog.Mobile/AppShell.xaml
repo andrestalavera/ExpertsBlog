@@ -4,7 +4,17 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:Pages="clr-namespace:ExpertsBlog.Mobile.Pages"
     x:Class="ExpertsBlog.Mobile.AppShell">
+    <!-- 
+        On dessine les élément dans le menu hamburger, le premier est l'élément sélectionné par défaut. 
+        
+        Le premier élément va afficher "Blog Posts"
+    -->
     <FlyoutItem Title="Blog Posts">
+        <!-- 
+            Le contenu affiché lorsque l'élément est séléctionné.
+
+            Pour la route "MainPage", afficher le template ExpertsBlog.Mobile.Pages.MainPage (le namespace a été déclaré dans l'entête).
+         -->
         <ShellContent Route="MainPage" ContentTemplate="{DataTemplate Pages:MainPage}"></ShellContent>
     </FlyoutItem>
     <FlyoutItem Title="A propos">

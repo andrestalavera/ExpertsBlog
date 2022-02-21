@@ -4,10 +4,16 @@ using System.Runtime.CompilerServices;
 
 namespace ExpertsBlog.Mobile.ViewModels
 {
+    /// <summary>
+    /// Classe abstraite ViewModelBase
+    /// Hérite de INotifyPropertyChanged (la classe implémente l'interface du même nom)
+    /// </summary>
     public abstract class ViewModelBase : INotifyPropertyChanged
     {
+        #region INotifyPropertyChanged
+        #region Implémentation de l'interface
         public event PropertyChangedEventHandler PropertyChanged;
-
+        #endregion
         /// <summary>
         /// Méthode qui va effectuer la notification
         /// </summary>
@@ -46,5 +52,6 @@ namespace ExpertsBlog.Mobile.ViewModels
             // On appelle la méthode `OnPropertyChanged(string)` qui va créer un événement de changement de valeur.
             OnPropertyChanged(propertyName);
         }
+        #endregion
     }
 }
