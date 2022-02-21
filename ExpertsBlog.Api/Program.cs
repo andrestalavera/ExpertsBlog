@@ -1,5 +1,5 @@
-﻿using ExpertsBlog.Entities;
-using ExpertsBlog.Data;
+﻿using ExpertsBlog.Data;
+using ExpertsBlog.Entities;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -16,7 +16,6 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 // On ajoute ExpertsBlogDbContext dans les services. Par défaut, la durée de vie du DbContext est "Scoped"
 // On injecte la configuration la configuration.
 builder.Services.AddDbContext<ExpertsBlogDbContext>(options => options.UseSqlServer(connectionString));
-
 // On ajoute Swagger
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
