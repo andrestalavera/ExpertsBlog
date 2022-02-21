@@ -4,5 +4,17 @@
              x:Class="ExpertsBlog.Mobile.App">
     <Application.Resources>
 
+        <Color x:Key="GreenColor">#666600</Color>
+
+        <Style x:Key="GreenText" TargetType="Label">
+            <Setter Property="TextColor" Value="{StaticResource GreenColor}"/>
+        </Style>
+
+        <!-- Style "GreenTextForTitles" hérite de "GreenText" -->
+        <Style x:Key="GreenTextForTitles" TargetType="Label" BasedOn="{StaticResource GreenText}">
+            <Setter Property="BackgroundColor" Value="#00FFFF"/>
+            <Setter Property="FontSize" Value="Title"/>
+        </Style>
+
     </Application.Resources>
 </Application>

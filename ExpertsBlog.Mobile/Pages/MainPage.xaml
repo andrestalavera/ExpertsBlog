@@ -2,7 +2,9 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:ViewModel="clr-namespace:ExpertsBlog.Mobile.ViewModels"
-             x:Class="ExpertsBlog.Mobile.Pages.MainPage">
+             xmlns:Entities="clr-namespace:ExpertsBlog.Entities"
+             x:Class="ExpertsBlog.Mobile.Pages.MainPage"
+             x:Name="MyMainPage">
 
     <ContentPage.BindingContext>
         <ViewModel:MainViewModel />
@@ -10,9 +12,30 @@
 
     <ContentPage.Resources>
         <DataTemplate x:Key="BlogPostDataTemplate">
-            <StackLayout>
-                <Label Text="{Binding Title}"/>
-            </StackLayout>
+            <Grid RowDefinitions="Auto,Auto" Padding="10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="2*"/>
+                </Grid.ColumnDefinitions>
+
+                <Frame Grid.RowSpan="2" BorderColor="Black">
+                    <Image Source="{Binding ImageUrl}"/>
+                </Frame>
+                <Label Grid.Column="1" Text="{Binding Title}" Style="{StaticResource GreenTextForTitles}"/>
+                <Label Grid.Column="1" Grid.Row="1" FontSize="Caption" Style="{StaticResource GreenText}">
+                    <Label.Text>
+                        <MultiBinding StringFormat="{}Le {0:O}, par {1}">
+                            <Binding Path="Creation" />
+                            <Binding Path="Author" />
+                        </MultiBinding>
+                    </Label.Text>
+                </Label>
+
+
+                <Grid.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding DetailsCommand, Source={RelativeSource AncestorType={x:Type ViewModel:MainViewModel}}}" CommandParameter="{Binding .}"/>
+                </Grid.GestureRecognizers>
+            </Grid>
         </DataTemplate>
     </ContentPage.Resources>
 

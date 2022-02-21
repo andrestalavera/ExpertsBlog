@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows.Input;
 using Xamarin.Forms;
 
 namespace ExpertsBlog.Mobile.ViewModels
@@ -17,6 +18,20 @@ namespace ExpertsBlog.Mobile.ViewModels
             }
         }
 
+        private int index;
+        public int Index
+        {
+            get => index;
+            set => SetProperty(ref index, value);
+        }
+
+        private string title;
+        public string Title
+        {
+            get => title;
+            set => SetProperty(ref title, value);
+        }
+
         private string content;
         public string Content
         {
@@ -33,9 +48,14 @@ namespace ExpertsBlog.Mobile.ViewModels
 
         private void LoadItem(int id)
         {
-            Id = id;
+            //Id = id;
             Content = "New content";
             Creation = DateTime.Today;
         }
+
+        public ICommand ClickCommand => new Command(() =>
+        {
+            Index++;
+        });
     }
 }

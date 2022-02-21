@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
+﻿using ExpertsBlog.Mobile.Pages;
 using Xamarin.Forms;
 
 namespace ExpertsBlog.Mobile
@@ -10,6 +8,7 @@ namespace ExpertsBlog.Mobile
         public AppShell()
         {
             InitializeComponent();
+            Routing.RegisterRoute(nameof(DetailsPage), typeof(DetailsPage));
         }
     }
 }

@@ -1,5 +1,8 @@
 ﻿using ExpertsBlog.Entities;
+using ExpertsBlog.Mobile.Pages;
 using System.Collections.ObjectModel;
+using System.Windows.Input;
+using Xamarin.Forms;
 
 namespace ExpertsBlog.Mobile.ViewModels
 {
@@ -19,9 +22,15 @@ namespace ExpertsBlog.Mobile.ViewModels
                 BlogPosts.Add(new BlogPost
                 {
                     Title = "Title " + i,
-                    ImageUrl = "https://picsum.photos/5/5"
+                    ImageUrl = "https://picsum.photos/10/10",
+                    Author = "Author " + i
                 });
             }
         }
+
+        public ICommand DetailsCommand => new Command<BlogPost>(async bp =>
+        {
+            await Shell.Current.GoToAsync($"{nameof(DetailsPage)}?{nameof(DetailsViewModel.Id)}={bp.Id}");
+        });
     }
 }
