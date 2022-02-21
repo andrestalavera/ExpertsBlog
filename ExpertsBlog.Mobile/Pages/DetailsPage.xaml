@@ -10,11 +10,60 @@
     </ContentPage.BindingContext>
 
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="{Binding Title}"/>
-            <Label Text="{Binding Content}"/>
-            <Label Text="{Binding Creation}"/>
-            <Button Command="{Binding ClickCommand}" Text="{Binding Index}"/>
-        </StackLayout>
+        <!-- Afficher une grille avec 5 lignes et 2 colonnes. L'espace entre le bord et l'intérieur est de 10 (padding). -->
+        <Grid RowDefinitions="Auto,Auto,Auto,*,Auto" Padding="10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+
+            <!-- 
+                On ajoute un Frame qui va prendre 2 colonnes de largeur et qui sera
+                placé dans la 1ère ligne (index 0) et 1ère  colonne (index 0).
+            -->
+            <Frame Grid.ColumnSpan="2" BackgroundColor="Aqua">
+                <Label Text="{Binding Title}" FontSize="Title"/>
+            </Frame>
+
+            <!-- 
+                On ajoute un Frame qui va prendre 2 lignes en hauteur
+                à la 2ème ligne (index 1)
+            -->
+            <Frame Grid.Row="1" Grid.RowSpan="2">
+                <Label Text="{Binding Category.Name}"/>
+            </Frame>
+
+            <!-- 
+                On ajoute un Frame 
+                à la 2e ligne (index 1) et 2e colonne (index 1)
+            -->
+            <Frame Grid.Row="1" Grid.Column="1">
+                <Label Text="{Binding Author}"/>
+            </Frame>
+
+            <!--
+                On ajoute un Frame
+                à la 3e ligne (index 2) et 2e colonne (index 1)
+            -->
+            <Frame Grid.Row="2" Grid.Column="1">
+                <Label Text="{Binding Creation}"/>
+            </Frame>
+
+            <!-- 
+                On ajoute un Frame qui va prendre 2 colonnes de largeur
+                à la 4ème ligne (index 3)
+            -->
+            <Frame Grid.ColumnSpan="2" Grid.Row="3" BackgroundColor="Aquamarine">
+                <Label Text="{Binding Content}"/>
+            </Frame>
+
+            <!--
+                On ajoute un bouton qui va prendre place 
+                à la 5e ligne (index 4)  et va prendre 2 colonnes de largeur.
+
+                Ce bouton est lié à la commande (une propriété) ClickCommand déclarée dans le MainViewModel
+            -->
+            <Button Grid.Row="4" Grid.ColumnSpan="2" Command="{Binding ClickCommand}" Text="{Binding Index}"/>
+        </Grid>
     </ContentPage.Content>
 </ContentPage>
