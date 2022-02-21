@@ -1,8 +1,13 @@
 ﻿using ExpertsBlog.Entities;
 using ExpertsBlog.Mobile.Pages;
 using System.Collections.ObjectModel;
+using System;
+using System.Net.Http;
 using System.Windows.Input;
 using Xamarin.Forms;
+using Newtonsoft.Json;
+using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace ExpertsBlog.Mobile.ViewModels
 {
@@ -17,14 +22,23 @@ namespace ExpertsBlog.Mobile.ViewModels
 
         public MainViewModel()
         {
-            for (int i = 0; i < 10; i++)
+            GetData();
+        }
+
+        private async void GetData()
+        {
+            using(HttpClient httpclient = new HttpClient()
             {
-                BlogPosts.Add(new BlogPost
+                BaseAddress = new Uri("https://expertsblogapi.azurewebsites.net/")
+            })
+            {
+                var json = await httpclient.GetStringAsync("BlogPosts");
+                Debug.WriteLine("************************************************" + json);
+                var x = JsonConvert.DeserializeObject<IEnumerable<BlogPost>>(json);
+                foreach (var blogPost in x)
                 {
-                    Title = "Title " + i,
-                    ImageUrl = "https://picsum.photos/10/10",
-                    Author = "Author " + i
-                });
+                    BlogPosts.Add(blogPost);
+                }
             }
         }
 
