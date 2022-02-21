@@ -1,5 +1,5 @@
-﻿using ExpertsBlog.Entities;
-using ExpertsBlog.Data;
+﻿using ExpertsBlog.Data;
+using ExpertsBlog.Entities;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -7,8 +7,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 using System;
-using System.Linq.Expressions;
-using System.Threading.Tasks;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,7 +14,6 @@ var builder = WebApplication.CreateBuilder(args);
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<ExpertsBlogDbContext>(options => options.UseSqlServer(connectionString));
-// builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
 {
