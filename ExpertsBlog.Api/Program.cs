@@ -65,9 +65,9 @@ void ConfigureRoutesFor<TEntity>(WebApplication app, string routeBase)
 
     // HTTP GET https://expertsblogapi.azurewebsites.net/BlogPosts/1
     app.MapGet($"{routeBase}/{{id}}", async (ExpertsBlogDbContext context, int id) => await context.Set<TEntity>().AsNoTracking().SingleOrDefaultAsync(b => b.Id == id));
-    
+
     // HTTP POST https://expertsblogapi.azurewebsites.net/BlogPosts
-    app.MapPost(routeBase, async (ExpertsBlogDbContext context, [FromBody]TEntity entity) =>
+    app.MapPost(routeBase, async (ExpertsBlogDbContext context, [FromBody] TEntity entity) =>
     {
         if (entity is not null)
         {
@@ -79,17 +79,21 @@ void ConfigureRoutesFor<TEntity>(WebApplication app, string routeBase)
         }
         throw new ArgumentNullException(nameof(entity));
     });
-    
+
     // HTTP PUT https://expertsblogapi.azurewebsites.net/BlogPosts/1
-    app.MapPut($"{routeBase}/{{id}}", async (ExpertsBlogDbContext context, int id, [FromBody]TEntity entity) =>
+    app.MapPut($"{routeBase}/{{id?}}", async (ExpertsBlogDbContext context, int? id, [FromBody] TEntity entity) =>
     {
         if (entity is not null)
         {
-            if (entity.Id == id)
+            if (id.HasValue)
             {
-                context.Set<TEntity>().Update(entity);
-                await context.SaveChangesAsync();
+                if (entity.Id == id)
+                {
+                    context.Set<TEntity>().Update(entity);
+                    await context.SaveChangesAsync();
+                }
             }
+            throw new ArgumentNullException(nameof(id));
         }
         throw new ArgumentNullException(nameof(entity));
     });
@@ -106,6 +110,6 @@ void ConfigureRoutesFor<TEntity>(WebApplication app, string routeBase)
                 await context.SaveChangesAsync();
             }
         }
-        throw new ArgumentNullException();
+        throw new ArgumentNullException(nameof(id));
     });
 }
