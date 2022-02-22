@@ -3,13 +3,13 @@ using ExpertsBlog.Mobile.Services;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
+[assembly: Dependency(typeof(ExpertsBlogApiService))]
 namespace ExpertsBlog.Mobile
 {
     /// <summary>
     /// La classe App gère le cycle de vie de l'application.
     /// Cette classe est partielle. L'autre partie est générée grâce au fichier XAML associé (App.xaml.cs).
     /// </summary>
-    [assembly: Dependency(typeof(ExpertsBlogApiService))]
     public partial class App : Application
     {
         /// <summary>
