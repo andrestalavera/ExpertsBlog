@@ -25,11 +25,18 @@ Xamarin._X_ se base sur [Mono](https://www.mono-project.com) (et pas .NET Framew
 ## Prérequis pour développer avec Xamarin
 |Technologie|Installations Windows|Installations macOS|
 |--|--|--|
-|Xamarin.Android|SDK Android (pour les versions), JDK, Visual Studio avec les outils Xamarin, _Emulateurs_. |SDK Android (pour les versions), JDK, Visual Studio avec les outils Xamarin, _Emulateurs_.|
+|Xamarin.Android|SDK Android (pour les versions), JDK, Visual Studio avec les outils Xamarin, _NDK_, _Emulateurs_. |SDK Android (pour les versions), JDK, Visual Studio avec les outils Xamarin, _NDK_, _Emulateurs_.|
 |Xamarin.iOS|Visual Studio avec les outils Xamarin, macOS avec XCode et les SDK's iOS (pour apparayer l'émulateur avec Windows et tester depuis cet OS) ou un compte Apple Developer.|XCode avec les SDK's et simulateurs iOS, Visual Studio, Xamarin.
 |Xamarin.Forms|Les deux installations ci-dessus.|Les deux installations ci-dessus.|
 
-> _En italique, les outils qui ne sont pas obligatoires._
+## Les outils
+- SDK : Set Development Kit
+- JDK : Java Development Kit
+- NDK : Native Development Kit (C, C++, ...)
+
+> Informations complémentaires
+> - _En italique, les outils qui ne sont pas obligatoires._
+> - Accélérer les émulateurs Android : https://docs.microsoft.com/xamarin/android/get-started/installation/android-emulator/hardware-acceleration?tabs=vswin&pivots=windows#hyper-v
 
 # Plateformes mobiles natives
 
@@ -38,7 +45,6 @@ Xamarin._X_ se base sur [Mono](https://www.mono-project.com) (et pas .NET Framew
 - Les ressources sont stockées dans le dossier `R` et sont indéxées dans une classe pour être utilisées grâce à la méthode `view.findById(int)`.
 - L'application se compose d'une ou plusieurs activités. Les activités ont un cycle de vie (`onCreate`, `onStart`, `onResume`, `onPause`, `onStop`, `onDestroy`, `onRestart`) ;
 - L'activité de démarrage doit être présicée par la propriété de l'attribut (`MainLauncher`).
-
 
 ### Cycle de vie d'une activité Android
 ![Cycle de vie d'une activité Android](images/android_activity_lifecycle.png "Activity lifecycle, https://www.androhub.com/android-activity-lifecycle/")

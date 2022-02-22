@@ -8,11 +8,14 @@ using Xamarin.Forms;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Diagnostics;
+using ExpertsBlog.Mobile.Services;
 
 namespace ExpertsBlog.Mobile.ViewModels
 {
     public class MainViewModel : ViewModelBase
     {
+        private readonly IExpertsBlogApiService apiService = new ExpertsBlogApiService();
+
         private ObservableCollection<BlogPost> blogPosts = new ObservableCollection<BlogPost>();
         public ObservableCollection<BlogPost> BlogPosts
         {
@@ -27,19 +30,7 @@ namespace ExpertsBlog.Mobile.ViewModels
 
         private async void GetData()
         {
-            using(HttpClient httpclient = new HttpClient()
-            {
-                BaseAddress = new Uri("https://expertsblogapi.azurewebsites.net/")
-            })
-            {
-                var json = await httpclient.GetStringAsync("BlogPosts");
-                Debug.WriteLine("************************************************" + json);
-                var x = JsonConvert.DeserializeObject<IEnumerable<BlogPost>>(json);
-                foreach (var blogPost in x)
-                {
-                    BlogPosts.Add(blogPost);
-                }
-            }
+            BlogPosts = new ObservableCollection<BlogPost>(await apiService.GetBlogPosts());
         }
 
         public ICommand DetailsCommand => new Command<BlogPost>(async bp =>
