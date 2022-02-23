@@ -1,22 +1,18 @@
 ﻿using ExpertsBlog.Entities;
 using ExpertsBlog.Mobile.Pages;
 using System.Collections.ObjectModel;
-using System;
-using System.Net.Http;
 using System.Windows.Input;
 using Xamarin.Forms;
-using Newtonsoft.Json;
-using System.Collections.Generic;
-using System.Diagnostics;
 using ExpertsBlog.Mobile.Services;
+using System.Threading.Tasks;
 
 namespace ExpertsBlog.Mobile.ViewModels
 {
     public class MainViewModel : ViewModelBase
     {
-        private readonly IExpertsBlogApiService apiService = new ExpertsBlogApiService();
+        private readonly IExpertsBlogApiService apiService;
 
-        private ObservableCollection<BlogPost> blogPosts = new ObservableCollection<BlogPost>();
+        private ObservableCollection<BlogPost> blogPosts;
         public ObservableCollection<BlogPost> BlogPosts
         {
             get => blogPosts;
@@ -25,12 +21,20 @@ namespace ExpertsBlog.Mobile.ViewModels
 
         public MainViewModel()
         {
-            GetData();
+            apiService = new ExpertsBlogApiService();
+            BlogPosts = new ObservableCollection<BlogPost>();
         }
 
-        private async void GetData()
+        public void GetData()
         {
-            BlogPosts = new ObservableCollection<BlogPost>(await apiService.GetBlogPosts());
+            Task.Run(async () =>
+            {
+                var items = await apiService.GetBlogPosts();
+                foreach (var item in items)
+                {
+                    BlogPosts.Add(item);
+                }
+            });
         }
 
         public ICommand DetailsCommand => new Command<BlogPost>(async bp =>
