@@ -86,7 +86,7 @@ namespace ExpertsBlog.Mobile.ViewModels
         }
 
         private ObservableCollection<Address> addresses;
-        public ObservableCollection<Address> Address
+        public ObservableCollection<Address> Addresses
         {
             get => addresses;
             set => SetProperty(ref addresses, value);
@@ -107,6 +107,7 @@ namespace ExpertsBlog.Mobile.ViewModels
         public DetailsViewModel()
         {
             apiService = DependencyService.Get<IExpertsBlogApiService>();
+            Addresses = new ObservableCollection<Address>();
         }
 
         /// <summary>
@@ -123,6 +124,11 @@ namespace ExpertsBlog.Mobile.ViewModels
                 Category = blogPost.Category;
                 Content = blogPost.Content;
                 Title = blogPost.Title;
+
+                foreach (var address in await apiService.GetAddresses(id))
+                {
+                    Address.Add(address);
+                }
             });
         }
 
