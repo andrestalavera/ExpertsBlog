@@ -5,6 +5,7 @@ using System.Windows.Input;
 using Xamarin.Forms;
 using ExpertsBlog.Mobile.Services;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace ExpertsBlog.Mobile.ViewModels
 {
@@ -22,18 +23,23 @@ namespace ExpertsBlog.Mobile.ViewModels
         public MainViewModel()
         {
             apiService = DependencyService.Get<IExpertsBlogApiService>();
-            BlogPosts = new ObservableCollection<BlogPost>();
+            // BlogPosts = new ObservableCollection<BlogPost>();
         }
 
         public void GetData()
         {
             Task.Run(async () =>
             {
-                var items = await apiService.GetBlogPosts();
-                foreach (var item in items)
+                if (BlogPosts.Any())
                 {
-                    BlogPosts.Add(item);
+                    return;
                 }
+                var items = await apiService.GetBlogPosts();
+                // foreach (var item in items)
+                // {
+                //     BlogPosts.Add(item);
+                // }
+                BlogPosts = new ObservableCollection<BlogPost>(items);
             });
         }
 

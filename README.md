@@ -69,7 +69,10 @@ Xamarin._X_ se base sur [Mono](https://www.mono-project.com) (et pas .NET Framew
 ## Cycle de vie d'une application Xamarin.Forms
 ![Cycle de vie d'une application Xamarin.Forms](images/xamarin_forms_lifecycle.png "Cycle de vie d'une application Xamarin.Forms")
 
-> Pour chaque événement, un lien est fait entre Xamarin.Forms et Xamarin.Android/Xamarin.iOS.
+## Xamarin.Forms => iOS & Android ?
+![Comparaison des cycles de vie d'une application Xamarin.Forms avec une application Android/iOS](images/Lifecycle-comparison.png "Comparaison des cycles de vie d'une application Xamarin.Forms avec une application Android/iOS, source https://jlamch.blogspot.com/2018/08/mobile-view-lifecycle-fixing.html")
+
+> Pour chaque événement, un lien est fait entre Xamarin.Forms et Xamarin.Android/Xamarin.iOS. Plus d'informations : https://jlamch.blogspot.com/2018/08/mobile-view-lifecycle-fixing.html
 
 ## Navigation
 (TODO: copier code Mourad)
