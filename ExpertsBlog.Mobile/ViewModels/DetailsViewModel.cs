@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Net.Http;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using ExpertsBlog.Entities;
-using Newtonsoft.Json;
+using ExpertsBlog.Mobile.Services;
 using Xamarin.Forms;
 
 namespace ExpertsBlog.Mobile.ViewModels
@@ -16,6 +15,9 @@ namespace ExpertsBlog.Mobile.ViewModels
     [QueryProperty(nameof(Id), nameof(Id))]
     public class DetailsViewModel : ViewModelBase
     {
+        private readonly IExpertsBlogApiService apiService;
+
+        #region Properties
         private int id;
         /// <summary>
         /// Id du billet de blog
@@ -91,30 +93,28 @@ namespace ExpertsBlog.Mobile.ViewModels
             get => index;
             set => SetProperty(ref index, value);
         }
+        #endregion
+
+        public DetailsViewModel()
+        {
+            apiService = DependencyService.Get<IExpertsBlogApiService>();
+        }
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="id">Id de l'élément à charger</param>
-        private async void LoadItem(int id)
+        private void LoadItem(int id)
         {
-            using (HttpClient httpClient = new HttpClient
+            Task.Run(async () =>
             {
-                BaseAddress = new Uri("https://expertsblogapi.azurewebsites.net")
-            })
-            {
-                string blogPostJson = await httpClient.GetStringAsync($"BlogPosts/{id}");
-                BlogPost blogPost = JsonConvert.DeserializeObject<BlogPost>(blogPostJson);
-
-                string categoryJson = await httpClient.GetStringAsync($"Categories/{blogPost.CategoryId}");
-                Category category = JsonConvert.DeserializeObject<Category>(categoryJson);
-
+                var blogPost = await apiService.GetBlogPost(id);
                 Author = blogPost.Author;
                 Creation = blogPost.Creation;
+                Category = blogPost.Category;
                 Content = blogPost.Content;
                 Title = blogPost.Title;
-                Category = category;
-            }
+            });
         }
 
         public ICommand ClickCommand => new Command(() => Index++);
