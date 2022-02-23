@@ -57,7 +57,7 @@
                 <Label Text="{Binding Content}"/>
             </Frame>
 
-            <CollectionView ItemsSource="{Binding Adresses}"  Grid.ColumnSpan="2" Grid.Row="4" 
+            <CollectionView ItemsSource="{Binding Addresses}" Grid.ColumnSpan="2" Grid.Row="4" 
                             BackgroundColor="Beige">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
