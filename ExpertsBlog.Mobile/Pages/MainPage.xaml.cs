@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ExpertsBlog.Mobile.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -13,6 +14,12 @@ namespace ExpertsBlog.Mobile.Pages
         public MainPage()
         {
             InitializeComponent();
+        }
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            ((MainViewModel)BindingContext).GetData();
         }
     }
 }
