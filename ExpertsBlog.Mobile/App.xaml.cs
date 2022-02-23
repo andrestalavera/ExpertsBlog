@@ -3,7 +3,6 @@ using ExpertsBlog.Mobile.Services;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-[assembly: Dependency(typeof(ExpertsBlogApiService))]
 namespace ExpertsBlog.Mobile
 {
     /// <summary>
@@ -21,6 +20,7 @@ namespace ExpertsBlog.Mobile
             InitializeComponent();
             // On défini l'objet de démarrage
             MainPage = new AppShell();
+            DependencyService.Register<IExpertsBlogApiService, ExpertsBlogApiService>();
         }
 
         /// <summary>
