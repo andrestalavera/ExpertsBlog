@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using ExpertsBlog.Entities;
 using ExpertsBlog.Mobile.Services;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace ExpertsBlog.Mobile.ViewModels
@@ -83,6 +85,13 @@ namespace ExpertsBlog.Mobile.ViewModels
             set => SetProperty(ref creation, value);
         }
 
+        private ObservableCollection<Address> addresses;
+        public ObservableCollection<Address> Address
+        {
+            get => addresses;
+            set => SetProperty(ref addresses, value);
+        }
+
         private int index;
         
         /// <summary>
@@ -118,5 +127,25 @@ namespace ExpertsBlog.Mobile.ViewModels
         }
 
         public ICommand ClickCommand => new Command(() => Index++);
+
+        public ICommand OpenMapsCommand => new Command<Address>(async address => 
+        {
+            // https://docs.microsoft.com/en-us/xamarin/xamarin-forms/user-interface/map/native-map-app
+            string a = $"{address.Street}, {address.Zip} {address.City}, France";
+            if (Device.RuntimePlatform == Device.iOS)
+            {
+                // https://developer.apple.com/library/ios/featuredarticles/iPhoneURLScheme_Reference/MapLinks/MapLinks.html
+                await Launcher.OpenAsync("http://maps.apple.com/?q=" + a);
+            }
+            else if (Device.RuntimePlatform == Device.Android)
+            {
+                // open the maps app directly
+                await Launcher.OpenAsync("geo:0,0?q=" + a);
+            }
+            else if (Device.RuntimePlatform == Device.UWP)
+            {
+                await Launcher.OpenAsync("bingmaps:?where=" + a);
+            }
+        });
     }
 }

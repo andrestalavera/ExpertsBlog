@@ -11,7 +11,7 @@
 
     <ContentPage.Content>
         <!-- Afficher une grille avec 5 lignes et 2 colonnes. L'espace entre le bord et l'intérieur est de 10 (padding). -->
-        <Grid RowDefinitions="Auto,Auto,Auto,*,Auto" Padding="10">
+        <Grid RowDefinitions="Auto,Auto,Auto,*,*,Auto" Padding="10">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition />
@@ -57,13 +57,27 @@
                 <Label Text="{Binding Content}"/>
             </Frame>
 
+            <CollectionView ItemsSource="{Binding Adresses}"  Grid.ColumnSpan="2" Grid.Row="4" 
+                            BackgroundColor="Beige">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Frame>
+                            <Label Text="{Binding Street}"/>
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding OpenMapsCommand, Source={RelativeSource AncestorType={x:Type ViewModel:DetailsViewModel}}}" CommandParameter="{Binding .}"/>
+                            </Frame.GestureRecognizers>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
             <!--
                 On ajoute un bouton qui va prendre place 
                 à la 5e ligne (index 4)  et va prendre 2 colonnes de largeur.
 
                 Ce bouton est lié à la commande (une propriété) ClickCommand déclarée dans le MainViewModel
             -->
-            <Button Grid.Row="4" Grid.ColumnSpan="2" Command="{Binding ClickCommand}" Text="{Binding Index}"/>
+            <Button Grid.Row="5" Grid.ColumnSpan="2" Command="{Binding ClickCommand}" Text="{Binding Index}"/>
         </Grid>
     </ContentPage.Content>
 </ContentPage>

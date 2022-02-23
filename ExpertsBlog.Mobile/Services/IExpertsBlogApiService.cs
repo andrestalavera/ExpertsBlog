@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net.Http;
+using System.Linq;
 using System.Threading.Tasks;
 using ExpertsBlog.Entities;
 using Newtonsoft.Json;
@@ -12,6 +13,7 @@ namespace ExpertsBlog.Mobile.Services
     {
         Task<IEnumerable<BlogPost>> GetBlogPosts();
         Task<BlogPost> GetBlogPost(int id);
+        Task<IEnumerable<Address>> GetAddresses(int blogPostId);
     }
 
     public class ExpertsBlogApiService : IExpertsBlogApiService
@@ -44,6 +46,19 @@ namespace ExpertsBlog.Mobile.Services
 
                 blogPost.Category = category;
                 return blogPost;
+            }
+        }
+    
+        public async Task<IEnumerable<Address>> GetAddresses(int blogPostId)
+        {
+            using (HttpClient httpClient = new HttpClient()
+            {
+                BaseAddress = new Uri("https://expertsblogapi.azurewebsites.net")
+            })
+            {
+                var addressesJson = await httpClient.GetStringAsync("Addresses");
+                var addresses = JsonConvert.DeserializeObject<IEnumerable<Address>>(addressesJson);
+                return addresses.Where(address => address.BlogPostId == blogPostId);
             }
         }
     }
