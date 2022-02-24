@@ -127,7 +127,7 @@ namespace ExpertsBlog.Mobile.ViewModels
 
                 foreach (var address in await apiService.GetAddresses(id))
                 {
-                    Address.Add(address);
+                    Addresses.Add(address);
                 }
             });
         }

@@ -30,15 +30,7 @@ namespace ExpertsBlog.Mobile.ViewModels
         {
             Task.Run(async () =>
             {
-                if (BlogPosts.Any())
-                {
-                    return;
-                }
                 var items = await apiService.GetBlogPosts();
-                // foreach (var item in items)
-                // {
-                //     BlogPosts.Add(item);
-                // }
                 BlogPosts = new ObservableCollection<BlogPost>(items);
             });
         }

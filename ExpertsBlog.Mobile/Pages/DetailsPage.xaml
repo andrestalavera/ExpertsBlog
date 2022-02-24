@@ -61,12 +61,12 @@
                             BackgroundColor="Beige">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <Frame>
+                        <Grid>
                             <Label Text="{Binding Street}"/>
-                            <Frame.GestureRecognizers>
+                            <Grid.GestureRecognizers>
                                 <TapGestureRecognizer Command="{Binding OpenMapsCommand, Source={RelativeSource AncestorType={x:Type ViewModel:DetailsViewModel}}}" CommandParameter="{Binding .}"/>
-                            </Frame.GestureRecognizers>
-                        </Frame>
+                            </Grid.GestureRecognizers>
+                        </Grid>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
