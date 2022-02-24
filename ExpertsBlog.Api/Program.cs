@@ -61,7 +61,18 @@ void ConfigureRoutesFor<TEntity>(WebApplication app, string routeBase)
     where TEntity : EntityBase
 {
     // HTTP GET https://expertsblogapi.azurewebsites.net/BlogPosts
-    app.MapGet(routeBase, async (ExpertsBlogDbContext context) => await context.Set<TEntity>().AsNoTracking().ToListAsync());
+    if (routeBase == "BlogPosts")
+    {
+        app.MapGet(routeBase, async (ExpertsBlogDbContext context) => await context.BlogPosts
+            .AsNoTracking()
+            .Include(b => b.Addresses)
+            .Include(b => b.Tags)
+            .ToListAsync());
+    }
+    else
+    {
+        app.MapGet(routeBase, async (ExpertsBlogDbContext context) => await context.Set<TEntity>().AsNoTracking().ToListAsync());
+    }
 
     // HTTP GET https://expertsblogapi.azurewebsites.net/BlogPosts/1
     app.MapGet($"{routeBase}/{{id}}", async (ExpertsBlogDbContext context, int id) => await context.Set<TEntity>().AsNoTracking().SingleOrDefaultAsync(b => b.Id == id));

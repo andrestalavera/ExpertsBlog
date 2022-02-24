@@ -1,3 +1,5 @@
+using System.Text.Json.Serialization;
+
 namespace ExpertsBlog.Entities
 {
     /// <summary>
@@ -28,6 +30,7 @@ namespace ExpertsBlog.Entities
         /// <summary>
         /// Billet associé à cette adresse
         /// </summary>
+        [JsonIgnore]
         public BlogPost BlogPost { get; set; }
 
         /// <summary>
