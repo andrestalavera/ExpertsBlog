@@ -5,7 +5,7 @@
     xmlns:ViewModels="clr-namespace:ExpertsBlog.Mobile.ViewModels"
     x:Class="ExpertsBlog.Mobile.Pages.GeolocationPage">
     <ContentPage.BindingContext>
-        <ViewModel:GeolocationViewModel />
+        <ViewModels:GeolocationViewModel />
     </ContentPage.BindingContext>
 
     <ContentPage.Content>
