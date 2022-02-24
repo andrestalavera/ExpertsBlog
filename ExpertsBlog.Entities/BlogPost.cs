@@ -44,11 +44,11 @@ namespace ExpertsBlog.Entities
         /// <summary>
         /// Liste des mots-clé
         /// </summary>
-        public HashSet<Tag> Tags { get; } = new HashSet<Tag>();
+        public HashSet<Tag> Tags { get; set; } = new HashSet<Tag>();
 
         /// <summary>
         /// Liste des adresses du lieu
         /// </summary>
-        public HashSet<Address> Addresses { get; set; }
+        public HashSet<Address> Addresses { get; set; } = new HashSet<Address>();
     }
 }
