@@ -12,8 +12,9 @@ namespace ExpertsBlog.Mobile.Pages
             InitializeComponent();
         }
 
-        public override void OnAppearing()
+        protected override void OnAppearing()
         {
+            base.OnAppearing();
             ((GeolocationViewModel)BindingContext).CheckAndRequestPermissions();
         }
     }
