@@ -13,56 +13,40 @@ namespace ExpertsBlog.Mobile.ViewModels
             set => SetProperty(ref location, value);
         }
 
-        public void CheckAndRequestPermissions()
+        public async void CheckAndRequestPermissions()
         {
-            Task.Run(async () =>
+            var shouldShowRationale = Permissions.ShouldShowRationale<Permissions.LocationWhenInUse>();
+            var locationCheckStatus = await Permissions.CheckStatusAsync<Permissions.LocationWhenInUse>();
+            if (locationCheckStatus != PermissionStatus.Granted)
             {
-                Console.WriteLine("Toto");
-                Permissions.LocationWhenInUse locationWhenInUse = new Permissions.LocationWhenInUse();
-                //var requiredDeclarations = locationWhenInUse.RequiredDeclarations;
-                //var requiredInfoPlistKeys = locationWhenInUse.RequiredInfoPlistKeys;
-                //var requiredPermissions = locationWhenInUse.RequiredPermissions;
-                locationWhenInUse.EnsureDeclared();
+                var locationRequestStatuts = await Permissions.RequestAsync<Permissions.LocationWhenInUse>();
+            }
 
+            try
+            {
+                var location = await Geolocation.GetLocationAsync();
 
-                //var isCapacityDeclared = Permissions.IsCapacityDeclared(Permissions.LocationWhenInUse);
-                var shouldShowRationale = Permissions.ShouldShowRationale<Permissions.LocationWhenInUse>();
-                var locationCheckStatus = await Permissions.CheckStatusAsync<Permissions.LocationWhenInUse>();
-                if (locationCheckStatus != PermissionStatus.Granted)
+                if (location != null)
                 {
-                    var locationRequestStatuts = await Permissions.RequestAsync<Permissions.LocationWhenInUse>();
-                    var s = locationWhenInUse.RequestAsync();
+                    Location = location;
                 }
-
-                // Geolocation
-
-                try
-                {
-                    var location = await Geolocation.GetLocationAsync();
-
-                    if (location != null)
-                    {
-                        // Console.WriteLine($"Latitude: {location.Latitude}, Longitude: {location.Longitude}, Altitude: {location.Altitude}");
-                        Location = location;
-                    }
-                }
-                catch (FeatureNotSupportedException fnsEx)
-                {
-                    // Handle not supported on device exception
-                }
-                catch (FeatureNotEnabledException fneEx)
-                {
-                    // Handle not enabled on device exception
-                }
-                catch (PermissionException pEx)
-                {
-                    // Handle permission exception
-                }
-                catch (Exception ex)
-                {
-                    // Unable to get location
-                }
-            });
+            }
+            catch (FeatureNotSupportedException fnsEx)
+            {
+                // Handle not supported on device exception
+            }
+            catch (FeatureNotEnabledException fneEx)
+            {
+                // Handle not enabled on device exception
+            }
+            catch (PermissionException pEx)
+            {
+                // Handle permission exception
+            }
+            catch (Exception ex)
+            {
+                // Unable to get location
+            }
         }
     }
 }

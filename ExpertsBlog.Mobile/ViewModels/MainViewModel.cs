@@ -23,7 +23,6 @@ namespace ExpertsBlog.Mobile.ViewModels
         public MainViewModel()
         {
             apiService = DependencyService.Get<IExpertsBlogApiService>();
-            // BlogPosts = new ObservableCollection<BlogPost>();
         }
 
         public void GetData()
