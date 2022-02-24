@@ -17,7 +17,7 @@
          -->
         <ShellContent Route="MainPage" ContentTemplate="{DataTemplate Pages:MainPage}"></ShellContent>
     </FlyoutItem>
-    <FlyoutItem>
+    <FlyoutItem Title="Geolocation">
         <ShellContent Route="Geolocation" ContentTemplate="{DataTemplate Pages:GeolocationPage}" />
     </FlyoutItem>
     <FlyoutItem Title="A propos">
