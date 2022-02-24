@@ -34,5 +34,7 @@
     <string>ExpertsBlog.Mobile</string>
     <key>XSAppIconAssets</key>
     <string>Assets.xcassets/AppIcon.appiconset</string>
+    <key>NSLocationWhenInUseUsageDescription</key>
+    <string>Pour la démonstration.</string>
 </dict>
 </plist>
