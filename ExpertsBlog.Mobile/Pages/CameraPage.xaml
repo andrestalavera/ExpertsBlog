@@ -2,7 +2,7 @@
 <ContentPage
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:VieWModels="clr-namespace:ExpertsBlog.Mobile.ViewModels"
+    xmlns:ViewModels="clr-namespace:ExpertsBlog.Mobile.ViewModels"
     x:Class="ExpertsBlog.Mobile.Pages.CameraPage">
     <ContentPage.BindingContext>
         <ViewModels:CameraViewModel />

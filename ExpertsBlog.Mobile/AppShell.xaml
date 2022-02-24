@@ -20,6 +20,9 @@
     <FlyoutItem Title="Geolocation">
         <ShellContent Route="Geolocation" ContentTemplate="{DataTemplate Pages:GeolocationPage}" />
     </FlyoutItem>
+    <FlyoutItem Title="Camera">
+        <ShellContent Route="Camera" ContentTemplate="{DataTemplate Pages:CameraPage}"/>
+    </FlyoutItem>
     <FlyoutItem Title="A propos">
         <ShellContent Route="About" ContentTemplate="{DataTemplate Pages:AboutPage}"></ShellContent>
     </FlyoutItem>
