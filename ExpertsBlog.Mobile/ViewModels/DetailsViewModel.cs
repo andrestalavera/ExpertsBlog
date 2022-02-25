@@ -160,13 +160,6 @@ namespace ExpertsBlog.Mobile.ViewModels
             //     await Launcher.OpenAsync("bingmaps:?where=" + a);
             // }
 
-            var alwaysStatus = await Permissions.CheckStatusAsync<Permissions.LocationAlways>();
-            var whenInUseStatus = await Permissions.CheckStatusAsync<Permissions.LocationWhenInUse>();
-            if (whenInUseStatus != PermissionStatus.Granted)
-            {
-                alwaysStatus =  await Permissions.RequestAsync<Permissions.LocationAlways>();
-                whenInUseStatus = await Permissions.RequestAsync<Permissions.LocationWhenInUse>();
-            }
             var startLocation = await Geolocation.GetLocationAsync();
             if (startLocation != null)
             {

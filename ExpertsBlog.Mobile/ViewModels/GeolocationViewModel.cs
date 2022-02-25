@@ -15,13 +15,6 @@ namespace ExpertsBlog.Mobile.ViewModels
 
         public async void CheckAndRequestPermissions()
         {
-            var shouldShowRationale = Permissions.ShouldShowRationale<Permissions.LocationWhenInUse>();
-            var locationCheckStatus = await Permissions.CheckStatusAsync<Permissions.LocationWhenInUse>();
-            if (locationCheckStatus != PermissionStatus.Granted)
-            {
-                var locationRequestStatuts = await Permissions.RequestAsync<Permissions.LocationWhenInUse>();
-            }
-
             try
             {
                 var location = await Geolocation.GetLocationAsync();

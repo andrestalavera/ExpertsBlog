@@ -19,7 +19,7 @@ namespace ExpertsBlog.Mobile.Pages
         protected override void OnAppearing()
         {
             base.OnAppearing();
-            ((MainViewModel)BindingContext).GetData();
+            ((MainViewModel)BindingContext).Initialize();
         }
     }
 }
