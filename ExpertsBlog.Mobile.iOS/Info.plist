@@ -46,5 +46,7 @@
 	<string>App requires permission to use localisation</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>Always and when in use</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Pour t'enregistrer</string>
 </dict>
 </plist>
