@@ -102,6 +102,13 @@ namespace ExpertsBlog.Mobile.ViewModels
             get => index;
             set => SetProperty(ref index, value);
         }
+
+        private Location startLocation;
+        public Location StartLocation
+        {
+            get => startLocation;
+            set => SetProperty(ref startLocation, value);
+        }
         #endregion
 
         public DetailsViewModel()
@@ -136,22 +143,40 @@ namespace ExpertsBlog.Mobile.ViewModels
 
         public ICommand OpenMapsCommand => new Command<Address>(async address => 
         {
-            // https://docs.microsoft.com/en-us/xamarin/xamarin-forms/user-interface/map/native-map-app
-            string a = $"{address.Street}, {address.Zip} {address.City}, France";
-            if (Device.RuntimePlatform == Device.iOS)
+            // // https://docs.microsoft.com/en-us/xamarin/xamarin-forms/user-interface/map/native-map-app
+            // string a = $"{address.Street}, {address.Zip} {address.City}, France";
+            // if (Device.RuntimePlatform == Device.iOS)
+            // {
+            //     // https://developer.apple.com/library/ios/featuredarticles/iPhoneURLScheme_Reference/MapLinks/MapLinks.html
+            //     await Launcher.OpenAsync("http://maps.apple.com/?q=" + a);
+            // }
+            // else if (Device.RuntimePlatform == Device.Android)
+            // {
+            //     // open the maps app directly
+            //     await Launcher.OpenAsync("geo:0,0?q=" + a);
+            // }
+            // else if (Device.RuntimePlatform == Device.UWP)
+            // {
+            //     await Launcher.OpenAsync("bingmaps:?where=" + a);
+            // }
+
+            var alwaysStatus = await Permissions.CheckStatusAsync<Permissions.LocationAlways>();
+            var whenInUseStatus = await Permissions.CheckStatusAsync<Permissions.LocationWhenInUse>();
+            if (whenInUseStatus != PermissionStatus.Granted)
             {
-                // https://developer.apple.com/library/ios/featuredarticles/iPhoneURLScheme_Reference/MapLinks/MapLinks.html
-                await Launcher.OpenAsync("http://maps.apple.com/?q=" + a);
+                alwaysStatus =  await Permissions.RequestAsync<Permissions.LocationAlways>();
+                whenInUseStatus = await Permissions.RequestAsync<Permissions.LocationWhenInUse>();
             }
-            else if (Device.RuntimePlatform == Device.Android)
+            var startLocation = await Geolocation.GetLocationAsync();
+            if (startLocation != null)
             {
-                // open the maps app directly
-                await Launcher.OpenAsync("geo:0,0?q=" + a);
+                StartLocation = startLocation;
             }
-            else if (Device.RuntimePlatform == Device.UWP)
-            {
-                await Launcher.OpenAsync("bingmaps:?where=" + a);
-            }
+
+            var endLocation = new Location(address.Latitude, address.Longitude);
+            var km = Location.CalculateDistance(startLocation, endLocation, DistanceUnits.Kilometers);
+
+            MessagingCenter.Send(this, "Distance", km.ToString());
         });
     }
 }

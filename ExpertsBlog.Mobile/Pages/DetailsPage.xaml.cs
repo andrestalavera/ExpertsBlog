@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
+﻿using ExpertsBlog.Mobile.ViewModels;
 using Xamarin.Forms;
 
 namespace ExpertsBlog.Mobile.Pages
@@ -10,6 +8,10 @@ namespace ExpertsBlog.Mobile.Pages
         public DetailsPage()
         {
             InitializeComponent();
+            MessagingCenter.Subscribe<DetailsViewModel, string>(this, "Distance", async (sender, km) =>
+            {
+                await DisplayAlert("Kilomètres calculés", km, "OK");
+            });
         }
     }
 }
